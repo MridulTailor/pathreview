@@ -14,3 +14,9 @@ Currently, users cannot provide their personal portfolio website URLs as a data 
 **Setup confirmation:** [x] App runs locally at localhost:5173
 
 **Cohort ledger:** [x] Issue added to cohort ledger
+
+**Checklist reasoning:**
+- **Understanding:** I can clearly explain that we need to add a `WebParser` to extract text from a portfolio URL and index it via `ingestion/pipeline.py`. I've located `api/schemas/profile.py`, `ingestion/pipeline.py`, and `ingestion/parsers/base.py`.
+- **Tier Fit:** As a Tier 1 issue, it touches a few specific files (creating a parser, updating the pipeline, updating the schema) which is a great fit for a first contribution.
+- **Codebase Readiness:** I've read `ingestion/pipeline.py` (specifically `ingest_resume` and `ingest_readme`) and understand how the new `ingest_portfolio` method will fit in.
+- **Scope & Time:** The estimated 5-8 hours is realistic and achievable before Week 9. There are no open blockers or dependencies.
