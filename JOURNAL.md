@@ -20,3 +20,17 @@ Currently, users cannot provide their personal portfolio website URLs as a data 
 - **Tier Fit:** As a Tier 1 issue, it touches a few specific files (creating a parser, updating the pipeline, updating the schema) which is a great fit for a first contribution.
 - **Codebase Readiness:** I've read `ingestion/pipeline.py` (specifically `ingest_resume` and `ingest_readme`) and understand how the new `ingest_portfolio` method will fit in.
 - **Scope & Time:** The estimated 5-8 hours is realistic and achievable before Week 9. There are no open blockers or dependencies.
+
+## Week 8 — Reproduction & solution planning
+
+**Reproduction commit link:** https://github.com/mridultailor/pathreview/commit/a4105bf8fa4e7dd1393de3172a1cccd767112ab2
+
+**Reproduction summary:**
+I reviewed the existing ingestion pipelines and confirmed that we currently only support Resumes, Repos, and READMEs. I added a TODO comment in `ingestion/pipeline.py` to mark the exact location where the missing `ingest_portfolio` method should be implemented.
+
+**PLAN.md link:** https://github.com/mridultailor/pathreview/blob/feat/11-portfolio-url-ingestion/PLAN.md
+
+**Walkthrough video (recommended):** N/A
+
+**Blockers or open questions:**
+None at the moment.
