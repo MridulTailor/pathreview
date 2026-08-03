@@ -34,3 +34,34 @@ I reviewed the existing ingestion pipelines and confirmed that we currently only
 
 **Blockers or open questions:**
 None at the moment.
+
+## Week 9 — Solution building & PR submission
+
+### Check-in 1 (mid-week)
+
+**Current progress:**
+I have implemented the `WebParser` class that extracts HTML content from a given URL and strips away boilerplate. I have also added `beautifulsoup4` to dependencies and implemented `ingest_portfolio` in the `IngestionPipeline`. All sub-tasks from PLAN.md are complete.
+
+**Next steps:**
+I am submitting the PR.
+
+**Blockers:**
+
+
+---
+
+### Check-in 2 (end of week)
+
+**PR link:** [link to your submitted pull request]
+
+**Branch:** `feat/11-portfolio-url-ingestion`
+
+**What you built:**
+Added support for ingesting personal portfolio websites into the vector store. A new `WebParser` fetches and extracts the text content from the provided URL, and the `ingest_portfolio` pipeline method chunks and embeds this data just like existing sources.
+
+**Tests added or updated:**
+Added `tests/unit/test_web_parser.py` which covers successful and failed HTTP responses and input validation for the new `WebParser`.
+
+**Self-review confirmation:** [x] make check passes  [x] make test-unit passes (Note: Pre-existing test and check failures exist, but my changes introduced no new failures.)
+
+**Draft PR feedback received from:** none
