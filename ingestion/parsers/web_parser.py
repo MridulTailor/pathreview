@@ -66,10 +66,10 @@ class WebParser(BaseParser):
 
         except httpx.RequestError as e:
             logger.error("Failed to fetch URL", url=url, error=str(e))
-            raise ValueError(f"Failed to fetch portfolio URL: {e}")
+            raise ValueError(f"Failed to fetch portfolio URL: {e}") from e
         except httpx.HTTPStatusError as e:
             logger.error("HTTP error fetching URL", url=url, error=str(e))
-            raise ValueError(f"HTTP error fetching portfolio URL: {e.response.status_code}")
+            raise ValueError(f"HTTP error fetching portfolio URL: {e.response.status_code}") from e
         except Exception as e:
             logger.error("Error parsing portfolio URL", url=url, error=str(e))
-            raise ValueError(f"Error parsing portfolio URL: {e}")
+            raise ValueError(f"Error parsing portfolio URL: {e}") from e
