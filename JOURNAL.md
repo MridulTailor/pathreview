@@ -65,3 +65,72 @@ Added `tests/unit/test_web_parser.py` which covers successful and failed HTTP re
 **Self-review confirmation:** [x] make check passes  [x] make test-unit passes (Note: Pre-existing test and check failures exist, but my changes introduced no new failures.)
 
 **Draft PR feedback received from:** none
+
+## Week 10 — Iteration & reflection
+
+### Reviewer feedback
+
+**Feedback received:** [ ] Yes  [x] No — still awaiting review
+
+**Summary of feedback:**
+No reviewer comments came in on PR #700 by the end of the course. Per the
+Su26 course note, reviewer feedback isn't an active feature this term, so
+this is expected rather than a gap on my end. The PR remains open with no
+reviewers or assignees.
+
+**How you responded:**
+N/A — no feedback arrived, so there was nothing to respond to. I made sure
+the PR description itself does the work a reviewer's first pass normally
+would: it calls out the known SPA-rendering limitation and the pre-existing
+mypy/test failures on `main` up front, so a future reviewer wouldn't have to
+ask about either.
+
+---
+
+### Reflection
+
+**What was harder than you expected?**
+Hooking into the existing pipeline was harder than writing the parser
+itself. `WebParser` — fetch with httpx, strip `<script>`/`<style>`/`<nav>`
+with BeautifulSoup, return clean text — was the easy part. The harder part
+was `ingest_portfolio()`: figuring out how the existing semantic chunker and
+batch embedding processor expected their input, so the new method could
+reuse them instead of duplicating logic. I had to actually trace how the
+existing ingestion paths (GitHub repos, PDF resumes) called into the
+chunker/embedder before I could write a portfolio path that fit the same
+shape instead of bolting on something parallel and inconsistent.
+
+**What did you learn about working in a large codebase?**
+The chunker and embedder didn't care where text came from — they just
+needed content in the format they already expected. That's the real
+difference from a solo project: I wasn't free to design the ideal interface
+for my feature, I had to reverse-engineer the interface that already
+existed and conform to it. Reading someone else's abstractions accurately
+is a bigger part of the job than writing new code.
+
+**How did AI tools help — and where did they fall short?**
+AI was fastest at scaffolding: the `WebParser` skeleton, the httpx call, the
+basic BeautifulSoup strip logic, and the unit test structure came together
+quickly. Where it fell short was real-world HTML. The suggested fetch/parse
+logic worked cleanly on simple test pages but didn't hold up against actual
+edge cases — pages with malformed markup, non-HTML content types, or (the
+limitation I ended up documenting explicitly) JS-rendered SPA portfolios
+where `httpx.get()` just returns an empty shell. I had to test against real
+URLs myself, catch the failure modes the AI-generated code didn't
+anticipate, and add explicit error handling (raising `ValueError` on bad
+content types/HTTP errors) that the first pass didn't have.
+
+**What would you do differently if you started over?**
+I'd trace the pipeline's existing integration points before writing any
+parser code, rather than after. I ended up writing `WebParser` first and
+only then working out how it needed to plug into `ingest_portfolio()`,
+which meant some rework once I understood the chunker/embedder's actual
+expectations. Reading the integration point first would have saved a
+commit's worth of typing/linting cleanup at the end.
+
+**What are you most proud of from this module?**
+Being upfront in the PR description about what I didn't fix and what still
+doesn't work — the pre-existing mypy errors and failing tests on `main`,
+and the SPA-rendering gap — instead of glossing over them to make the PR
+look cleaner. That's the kind of documentation that actually helps a real
+reviewer trust the change.
